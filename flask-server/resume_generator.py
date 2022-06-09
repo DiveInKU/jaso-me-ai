@@ -20,9 +20,7 @@ def generate_ai_text(user_text):
     print(generated)
     generated_list = generated.split("\n")
     print(generated_list)
-    three_sentences = "\n".join(generated_list[0:len(generated_list) - 1])
-    print(three_sentences)
-    return three_sentences
+    return generated_list[0:len(generated_list) - 1]
 
 
 def save_model():
