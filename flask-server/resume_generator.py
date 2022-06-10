@@ -19,8 +19,9 @@ def generate_ai_text(user_text):
     generated = tokenizer.decode(gen_ids[0, :].tolist())
     print(generated)
     generated_list = generated.split("\n")
+    generated_list.pop()
     print(generated_list)
-    return generated_list[0:len(generated_list) - 1]
+    return generated_list[0:min(3, len(generated_list) - 1)]
 
 
 def save_model():
