@@ -4,9 +4,11 @@ from transformers import PreTrainedTokenizerFast
 
 
 def generate_ai_text(user_text):
-    model = torch.load("./kogpt/saved-model/pretrained.pt")
+    model = GPT2LMHeadModel.from_pretrained("./kogpt/saved-model/temptrained_backup")
+    # model = torch.load("./kogpt/saved-model/temptrained_backup")
     model.eval()
-    tokenizer = torch.load("./kogpt/saved-model/pretrained_tokenizer.pt")
+    tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2", bos_token='</s>', eos_token='</s>',
+                                                        unk_token='<unk>', pad_token='<pad>', mask_token='<mask>')
     text = user_text
     input_ids = tokenizer.encode(text)
     gen_ids = model.generate(torch.tensor([input_ids]),
@@ -18,10 +20,7 @@ def generate_ai_text(user_text):
                              use_cache=True)
     generated = tokenizer.decode(gen_ids[0, :].tolist())
     print(generated)
-    generated_list = generated.split("\n")
-    generated_list.pop()
-    print(generated_list)
-    return generated_list[0:min(3, len(generated_list) - 1)]
+    return generated
 
 
 def save_model():
@@ -34,5 +33,5 @@ def save_model():
 
 
 if __name__ == '__main__':
-    save_model()
-    generate_ai_text('컴퓨터')
+    # save_model()
+    generate_ai_text('제가 처음 컴퓨터에 관심을 갖게 된 건')
