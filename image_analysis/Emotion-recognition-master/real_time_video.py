@@ -6,6 +6,7 @@ import tensorflow as tf
 from keras.preprocessing.image import img_to_array
 import imutils
 import cv2
+import time
 from keras.models import load_model
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,6 +24,8 @@ EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised",
 emotion_cal = [0,0,0,0,0,0,0]
 graph_label = ["smile", "non-smile"]
 
+#prev_time = 0
+
 #feelings_faces = []
 #for index, emotion in enumerate(EMOTIONS):
    # feelings_faces.append(cv2.imread('emojis/' + emotion + '.png', -1))
@@ -30,6 +33,7 @@ graph_label = ["smile", "non-smile"]
 # starting video streaming
 cv2.namedWindow('your_face')
 camera = cv2.VideoCapture('react-webcam-interview-test.mp4')
+
 while True:
     frame = camera.read()[1]
     #reading the frame
@@ -82,11 +86,23 @@ while True:
 #        (emoji_face[:, :, 3] / 255.0) + frame[200:320,
 #        10:130, c] * (1.0 - emoji_face[:, :, 3] / 255.0)
 
+    # ret, frame = camera.read()
+    # current_time=time.time()-prev_time
+
+    # if (ret == True) and (current_time > 1./FPS):
+    #     cv2.imshow('your_face', frameClone)
+    #     cv2.imshow("Probabilities", canvas)
+    
+    #     if cv2.waitKey(1) & 0xFF == ord('q'):
+    #         break
 
     cv2.imshow('your_face', frameClone)
     cv2.imshow("Probabilities", canvas)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    
+    if (cv2.waitKey(int(50/fps))>=0):
         break
+
+print("재생 속도"+str(fps))
 
 emotion_all=0
 for i in range(7):
